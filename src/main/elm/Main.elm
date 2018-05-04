@@ -64,7 +64,7 @@ update msg model =
 
     MemberReceived (Err error) ->
       ( { model | message = toString error }, Cmd.none)
-      
+
 -- VIEW
 
 view : Model -> Html Msg
@@ -72,6 +72,7 @@ view model =
   div []
     [ h2 [] [text ("Member Count = " ++ toString model.count) ]
     , button [ onClick GetMemberCount ] [ text "Update Member Count" ]
+    , button [ onClick GetMember ] [ text "Get Member" ]
     , hr [] []
     , text model.message
     ]
