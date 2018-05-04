@@ -75,3 +75,10 @@ subscriptions model = Sub.none
 getMemberCount : Cmd Msg
 getMemberCount =
     Http.send MemberCountReceived (Http.get (url "count") Decode.int)
+
+memberDecoder : Decode.Decoder Member
+memberDecoder =
+  Decode.map3 Member
+    (Decode.field "id" Decode.int)
+    (Decode.field "name" Decode.string)
+    (Decode.field "email" Decode.string)
