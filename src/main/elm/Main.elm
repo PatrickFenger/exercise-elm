@@ -8,7 +8,7 @@ import Json.Decode as Decode
 main : Program Never Model Msg
 main =
   Html.program
-    { init = init
+    { init = start
     , view = view
     , update = update
     , subscriptions = subscriptions
@@ -24,8 +24,8 @@ type alias Model =
   , message : String
   }
 
-init : (Model, Cmd Msg)
-init =
+start : (Model, Cmd Msg)
+start =
   ( Model 0 "No message"
   , Cmd.none
   )
