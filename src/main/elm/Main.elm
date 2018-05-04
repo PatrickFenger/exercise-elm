@@ -3,7 +3,7 @@ import Html exposing (..)
 import Html.Events exposing (..)
 import Http
 import Json.Decode as Decode
--- import Json.Encode as Encode
+import Json.Encode as Encode
 
 main : Program Never Model Msg
 main =
@@ -82,3 +82,11 @@ memberDecoder =
     (Decode.field "id" Decode.int)
     (Decode.field "name" Decode.string)
     (Decode.field "email" Decode.string)
+
+encodeMember : Member -> Encode.Value
+encodeMember member =
+  Encode.object
+    [ ("id", Encode.int member.id)
+    , ("name", Encode.string member.name)
+    , ("email", Encode.string member.email)
+    ]
