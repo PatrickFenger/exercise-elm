@@ -40,6 +40,8 @@ start =
 
 type Msg
   = GetMemberCount
+  | GetMember
+  | MemberReceived (Result Http.Error Member)
   | MemberCountReceived (Result Http.Error Int)
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -54,6 +56,15 @@ update msg model =
     MemberCountReceived (Err error) ->
       ( { model | message = toString error }, Cmd.none)
 
+    GetMember ->
+      (model, Cmd.none)
+
+    MemberReceived (Ok _) ->
+      (model, Cmd.none)
+
+    MemberReceived (Err error) ->
+      ( { model | message = toString error }, Cmd.none)
+      
 -- VIEW
 
 view : Model -> Html Msg
