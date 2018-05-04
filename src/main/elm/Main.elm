@@ -19,6 +19,12 @@ url action = "http://localhost:9000/member/" ++ action
 
 -- MODEL
 
+type alias Member =
+  { id : Int
+  , name : String
+  , email : String
+  }
+
 type alias Model =
   { count : Int
   , message : String
