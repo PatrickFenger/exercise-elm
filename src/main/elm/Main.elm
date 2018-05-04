@@ -58,10 +58,10 @@ update msg model =
       ( { model | message = toString error }, Cmd.none)
 
     GetMember ->
-      (model, Cmd.none)
+      (model, getMember)
 
-    MemberReceived (Ok _) ->
-      (model, Cmd.none)
+    MemberReceived (Ok member) ->
+      ( { model | member = member }, Cmd.none)
 
     MemberReceived (Err error) ->
       ( { model | message = toString error }, Cmd.none)
