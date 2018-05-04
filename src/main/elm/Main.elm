@@ -28,11 +28,12 @@ type alias Member =
 type alias Model =
   { count : Int
   , message : String
+  , member : Member
   }
 
 start : (Model, Cmd Msg)
 start =
-  ( Model 0 "No message"
+  ( Model 0 "No message" (Member 7 "gunni" "gunni@gmail.com")
   , Cmd.none
   )
 
