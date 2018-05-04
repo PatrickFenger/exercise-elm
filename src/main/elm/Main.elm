@@ -84,6 +84,9 @@ subscriptions : Model -> Sub Msg
 subscriptions model = Sub.none
 
 -- HTTP
+getMember : Cmd Msg
+getMember =
+    Http.send MemberReceived (Http.get (url "1") memberDecoder)
 
 getMemberCount : Cmd Msg
 getMemberCount =
