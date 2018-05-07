@@ -1,5 +1,5 @@
 import Html exposing (..)
--- import Html.Attributes exposing (..)
+import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
 import Json.Decode as Decode
@@ -74,6 +74,10 @@ view model =
     [ h2 [] [text ("Member Count = " ++ toString model.count) ]
     , button [ onClick GetMemberCount ] [ text "Update Member Count" ]
     , button [ onClick GetMember ] [ text "Get Member" ]
+    , hr [] []
+    , input [type_ "text", value (toString model.member.id)] []
+    , input [type_ "text", value model.member.name] []
+    , input [type_ "text", value model.member.email] []
     , hr [] []
     , text model.message
     ]
