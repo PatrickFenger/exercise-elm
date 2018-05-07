@@ -63,7 +63,7 @@ update msg model =
       ( { model | message = toString error }, Cmd.none)
 
     GetMember ->
-      (model, getMember)
+      (model, getMember model.member.id)
 
     MemberReceived (Ok member) ->
       ( { model | member = member }, Cmd.none)
@@ -92,13 +92,13 @@ update msg model =
        ( { model | member = { member | email = email } }, Cmd.none)
 
     PostMember ->
-      (model, Cmd.none)
+      (model, postMember model.member)
 
     MemberPosted (Err error)->
       ( { model | message = toString error }, Cmd.none)
 
     MemberPosted (Ok member) ->
-      (model, Cmd.none)
+      ( { model | member = member }, getMemberCount)
 
 -- VIEW
 
@@ -108,6 +108,7 @@ view model =
     [ h2 [] [text ("Member Count = " ++ toString model.count) ]
     , button [ onClick GetMemberCount ] [ text "Update Member Count" ]
     , button [ onClick GetMember ] [ text "Get Member" ]
+    , button [ onClick PostMember ] [ text "Post Member" ]
     , hr [] []
     , input [type_ "text", value (toString model.member.id), onInput ID] []
     , input [type_ "text", value model.member.name, onInput Name] []
@@ -122,9 +123,9 @@ subscriptions : Model -> Sub Msg
 subscriptions model = Sub.none
 
 -- HTTP
-getMember : Cmd Msg
-getMember =
-    Http.send MemberReceived (Http.get (url "1") memberDecoder)
+getMember : Int -> Cmd Msg
+getMember id =
+    Http.send MemberReceived (Http.get (url (toString id)) memberDecoder)
 
 getMemberCount : Cmd Msg
 getMemberCount =
@@ -148,3 +149,7 @@ encodeMember member =
 memberJsonBody : Member -> Http.Body
 memberJsonBody member =
   Http.jsonBody <| encodeMember member
+
+postMember: Member -> Cmd Msg
+postMember member =
+  Http.send MemberPosted (Http.post (url "") (memberJsonBody member) memberDecoder)
