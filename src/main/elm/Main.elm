@@ -47,6 +47,8 @@ type Msg
   | ID String
   | Name String
   | Email String
+  | PostMember
+  | MemberPosted (Result Http.Error Member)
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
@@ -88,6 +90,15 @@ update msg model =
         member = model.member
       in
        ( { model | member = { member | email = email } }, Cmd.none)
+
+    PostMember ->
+      (model, Cmd.none)
+
+    MemberPosted (Err error)->
+      ( { model | message = toString error }, Cmd.none)
+
+    MemberPosted (Ok member) ->
+      (model, Cmd.none)
 
 -- VIEW
 
