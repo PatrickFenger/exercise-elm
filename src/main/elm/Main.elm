@@ -144,3 +144,7 @@ encodeMember member =
     , ("name", Encode.string member.name)
     , ("email", Encode.string member.email)
     ]
+
+memberJsonBody : Member -> Http.Body
+memberJsonBody member =
+  Http.jsonBody <| encodeMember member
