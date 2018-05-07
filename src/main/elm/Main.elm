@@ -81,13 +81,13 @@ update msg model =
       let
         member = model.member
       in
-        ( { model | member = {member | name = name}}, Cmd.none)
+        ( { model | member = { member | name = name } }, Cmd.none)
 
     Email email ->
       let
         member = model.member
       in
-       ( { model | member = {member | email = email}}, Cmd.none)
+       ( { model | member = { member | email = email } }, Cmd.none)
 
 -- VIEW
 
