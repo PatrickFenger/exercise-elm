@@ -44,6 +44,9 @@ type Msg
   | GetMember
   | MemberReceived (Result Http.Error Member)
   | MemberCountReceived (Result Http.Error Int)
+  | ID String
+  | Name String
+  | Email String
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
@@ -66,6 +69,26 @@ update msg model =
     MemberReceived (Err error) ->
       ( { model | message = toString error }, Cmd.none)
 
+    ID idText ->
+      case String.toInt idText of
+        Ok id ->
+          ( { model | member = (Member id model.member.name model.member.email)}, Cmd.none)
+        Err _ ->
+          ( { model | member = (Member 0 model.member.name model.member.email),
+                      message = "Failed to parse ID, setting it to 0"}, Cmd.none)
+
+    Name name ->
+      let
+        member = model.member
+      in
+        ( { model | member = {member | name = name}}, Cmd.none)
+
+    Email email ->
+      let
+        member = model.member
+      in
+       ( { model | member = {member | email = email}}, Cmd.none)
+
 -- VIEW
 
 view : Model -> Html Msg
@@ -75,9 +98,9 @@ view model =
     , button [ onClick GetMemberCount ] [ text "Update Member Count" ]
     , button [ onClick GetMember ] [ text "Get Member" ]
     , hr [] []
-    , input [type_ "text", value (toString model.member.id)] []
-    , input [type_ "text", value model.member.name] []
-    , input [type_ "text", value model.member.email] []
+    , input [type_ "text", value (toString model.member.id), onInput ID] []
+    , input [type_ "text", value model.member.name, onInput Name] []
+    , input [type_ "text", value model.member.email, onInput Email] []
     , hr [] []
     , text model.message
     ]
